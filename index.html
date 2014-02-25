@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head>
+    <title>Grocery Buddy</title>
+</head>
+<body>
+    <b>Grocery Buddy by Jared Baum (jc2btp)</b>
+    {% if user %}
+    <p>Welcome, {{ user.nickname() }}</p><br/>
+    <div>
+        <b>Grocery List for </b>
+        {% if items %}
+        <table>
+            <tr>
+                <th>Picture<th>
+                <th>Time<th>
+                <th>Name<th>
+                <th>Cost<th>
+                <th>Quantity<th>
+                <th>Total<th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td><img src="{{ item.picture }}"/></td>
+                <td>{{ item.time }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.cost }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>List is currently empty</p>
+        {% endif %}
+    </div>
+    <br/>
+    <form action="/add?user={{ user_id }}" method="post">
+        <div>Picture:<input type="file" name="img" accept="image/*"/></div>
+        <div>Name: <input type="text" name="name"/></div>
+        <div>Cost: $<input type="number" step="0.01" name="cost"/></div>
+        <div>Quantity: <input type="number" name="quantity"/></div>
+        <div><input type="submit" value="Add Item"/></div>
+    </form>
+    <input type="submit" value="Delete All Items"/>
+    {% endif %}
+    <hr/>
+    <a href="{{ url|safe }}">{{ url_linktext }}</a>
+</body>
+</html>
+{% end autoescape %}
